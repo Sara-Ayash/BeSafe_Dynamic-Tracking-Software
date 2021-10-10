@@ -30,7 +30,6 @@ namespace ServerSide
 
     public delegate void checkClientSocket();   
     
-    // 
     public delegate void clientReconnect(string name, Socket handler, string data);
     // public delegate void OpenliveForm(Socket handler);
     public delegate void liveData(Socket handler, string data);
@@ -47,20 +46,14 @@ namespace ServerSide
      
     public class Program
     {
-        //private List<Client> Allclients;
-        //private Socket serverSocket;
-        //private Socket clientSocket; // We will only accept one socket.
-        //private byte[] buffer;
         public MonitorSetting monitorSystem;
         private List<int> clientIds = new List<int>();
 
         DBserver DBInstance;
-        //private int numOfClient;
-        //private string name;
         private static ServerForm serverForm;
         public static Program program;
         static Mutex mutex = new Mutex(true, "{8F6F0AC4-B9A1-45fd-A8CF-72F04E6BDE8F}");
-        //private static object retuen;
+         
 
         [STAThread]
         static void Main(string[] args)
@@ -159,7 +152,7 @@ namespace ServerSide
         public static void ShowErrorDialog(string message)
         {
             MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //Console.WriteLine(message);
+           
         }
         
         // add or update computer in CheckBoxLst in server form
@@ -204,8 +197,7 @@ namespace ServerSide
             AsynchronousSocketListener.SendDataToClient(id, "last report");
 
         }
-        // ========================== 
-
+       
 
         // Actions from the listener to win form server
         public static void addExistClientToInterface(int id, string name, Socket handler)
@@ -229,7 +221,7 @@ namespace ServerSide
             serverForm.setClientNotConnect(id);
 
         }
-        // ============================
+        
     }
 }
 
