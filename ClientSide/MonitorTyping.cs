@@ -70,7 +70,7 @@ namespace ClientSide
                                 handler(replacement);
                             }
                              
-                            
+                           
                             foreach (string badWord in offensiveWords)
                             {
 
@@ -91,42 +91,7 @@ namespace ClientSide
             ShowErrorDialog("monitor typing stop");
         }
         
-         public bool BinarySearch(string searchTerm)
-            {
-                int first = 0;
-                int last = offensiveWords.Length - 1;
-                int position = -1;
-                bool found = false;
-                int compCount = 0;
-                searchTerm = textBox1.Text;
-
-                while (found != true && first <= last)
-                {
-                    int middle = (first + last) / 2;
-
-                    if (offensiveWords[middle] == searchTerm)
-                    {
-                        found = true;
-                        position = middle;
-                        compCount++;
-
-                        MessageBox.Show("Your search has been found after " + compCount + "comparisons.");
-                    }
-                    else if (offensiveWords[middle] > searchTerm)
-                    {
-                        last = middle;
-                        compCount++;
-                    }
-                    else
-                    {
-                        first = middle;
-                        compCount++;
-                    }
-                }
-                return position;
-                return compCount;
-            }
-        }
+       
 
         private void reportOrSendAlert(string badWord)
         {
