@@ -20,8 +20,7 @@ namespace ClientSide
 
         SQLiteConnection m_dbConnection;
         private string DB = "";
-        //string d = "News 010 Sport 020 shopping 030 Vocation 000 Economy 000 Email 000 Social 000 Vocation 000";
-
+ 
         public string[] newSites = { "ynet.co.il/news", "news.walla.co.il" , "maariv.co.il" , "haaretz.co.il/news" , "israelhayom.co.il" , "makorrishon.co.il", "n12.co.il" , "glz.co.il","kan.org.il/live/radio.aspx?stationid=3","kan.org.il/live/radio.aspx?stationid=3","debka.co.il","kikar.co.il","0404.co.il",
             "megafon-news.co.il/asys","al-monitor.com/pulse/iw/israel-pulse","972mag.com","al-monitor.com/pulse/iw/israel-pulse","jpost.com","news.google.com","timesofisrael.com"
        ,"israeltoday.co.il","haaretz.com","mivzakim.net" ,"newsnow.co.il/?hnsgid=76","mivzakon.co.il","mako.co.il/mako-vod-live-tv/VOD-6540b8dcb64fd31006.htm"};
