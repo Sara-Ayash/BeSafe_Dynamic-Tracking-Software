@@ -86,13 +86,11 @@ namespace ClientSide
                         if (!(bool)elementx.GetCurrentPropertyValue(AutomationElement.HasKeyboardFocusProperty))
                         {
                             string fullURL = ((ValuePattern)elementx.GetCurrentPattern(ValuePattern.Pattern)).Current.Value as string;
-                            //string sURL = findHostName(fullURL);
-                            if (!fullURL.Equals(prev))
+                             if (!fullURL.Equals(prev))
                             {
                                 // update url in DB for daily report
                                 string today = System.DateTime.Today.ToString();
-                                //ShowErrorDialog(today);
-                                base.DBInstance.fillDailyUrlTable(today, fullURL);
+                                 base.DBInstance.fillDailyUrlTable(today, fullURL);
 
                                 
                                 
@@ -110,7 +108,6 @@ namespace ClientSide
                                 base.DBInstance.connectToDatabase();
                                 string category = base.DBInstance.getCategorySites(fullURL);
 
-                                //ShowErrorDialog("categ|"+category+"|");
                                 // report if category site in DB 
                                 if (category != string.Empty)
                                 {
@@ -125,7 +122,6 @@ namespace ClientSide
                     }
                     catch (Exception ex)
                     {
-                        //ShowErrorDialog("fail: \n" + ex);
                         continue;
 
                     }
@@ -156,7 +152,6 @@ namespace ClientSide
         private static void ShowErrorDialog(string message)
         {
             Console.WriteLine(message);
-            // MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
 
